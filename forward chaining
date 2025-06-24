@@ -1,0 +1,31 @@
+function forwardchaining(facts,rules)
+{
+    let knownfacts=new Set(facts)
+    let inferred=true
+    while(inferred)
+    {
+         inferred=false
+        for(let rule of rules)
+        {
+            let [conditions,result]=rule
+            if(conditions.every(c=>knownfacts.has(c)) && !knownfacts.has(result))
+            {
+                inferred=true
+                knownfacts.add(result)
+                console.log(`The inferred value is ${result}`)
+            }
+        }
+    }
+    return knownfacts
+}
+    
+let facts = ["A", "B"];
+let rules = [
+    [["A", "B"], "C"],
+    [["C", "D"], "E"],
+    [["E"], "F"],
+    [["B"], "D"]
+];
+
+let finalFacts = forwardchaining(facts, rules);
+console.log("Final Facts:", Array.from(finalFacts));
